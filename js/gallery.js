@@ -1,4 +1,4 @@
-const galleryCnt = document.querySelector('.gallery');
+const gallery = document.querySelector('.gallery');
 
 const images = [
 {
@@ -66,29 +66,19 @@ original:
  },
 ];
 
-function createGalleryItem({ preview, original, description }) {
-    const item = document.createElement('div');
-    item.classList.add('gallery-item');
+gallery.addEventListener('click', (event) => {
+  event.preventDefault();
 
-    const link = document.createElement('a');
-    link.href = original;
-    link.classList.add('gallery-link');
+  const target = event.target;
+  if (target.nodeName !== 'IMG') return;
 
-    const img = document.createElement('img');
-    img.src = preview;
-    img.alt = description;
-    img.classList.add('gallery-img');
+  const original = target.dataset.source;
 
-    link.appendChild(img);
-    item.appendChild(link);
+  const instance = basicLightbox.create(`
+    <img class="modal-image" src="${original}" width="1280">
+  `);
 
-    return item;
-}
+  instance.show();
+});
 
-for (const image of images) {
-    const galleryItem = createGalleryItem(image);
-    galleryCnt.appendChild(galleryItem);
-}
-
-console.log(images);
 
